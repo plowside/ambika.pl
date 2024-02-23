@@ -1,0 +1,7 @@
+fastapi
+pydantic
+uvicorn
+uuid
+typing
+starlette
+requests
