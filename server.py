@@ -1,25 +1,10 @@
-import uvicorn, random, time, sqlite3, json, uuid, os
+import random, time, json, os
 
-from urllib.parse import urlparse
-
-from datetime import datetime, timedelta
-from typing import Annotated, Dict
-
-from fastapi import Depends, FastAPI, HTTPException, Response, Request, Cookie, Query, status, WebSocket, WebSocketDisconnect
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.exception_handlers import (
-	http_exception_handler,
-	request_validation_exception_handler,
-)
 
-from starlette.exceptions import HTTPException as StarletteHTTPException
-from jose import JWTError, jwt
-
-def render_html(path, encoding='utf-8'):
-	return open(path, encoding=encoding).read()
-
+from urllib.parse import urlparse
 
 app = FastAPI()
 
