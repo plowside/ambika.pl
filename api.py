@@ -13,7 +13,7 @@ app = FastAPI()
 
 @app.get('/')
 async def index():
-	return HTMLResponse(await render_html('index.html'))
+	return HTMLResponse(await render_html('pages/index.html'))
 
 @app.get('/{path}')
 async def pages(path):

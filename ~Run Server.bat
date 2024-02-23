@@ -1,2 +1,2 @@
-uvicorn server:app --reload
+uvicorn api:app --reload
 pause

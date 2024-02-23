@@ -66,11 +66,15 @@ def main(filename, input_text):
 				if z[0]: replace(filename, url, z[1])
 		except: pass
 
-def replace_urls(path, urls):
+def replace_urls(path, urls, objs = []):
 	for url in urls:
 		url = url.strip()
-		if url and 'majsterio.pl' in url:
+		if url:
 			replace(path, url, url.replace('https://majsterio.pl', ''))
+
+	for obj in objs:
+		if isinstance(obj, list): replace(path, obj[0], obj[1])
+		else: replace(path, obj, '')
 
 	print(f'[+] Файл {path} изменён.')
 
@@ -133,12 +137,17 @@ https://majsterio.pl/wykonczenie-wnetrz/remont-sypialni
 https://majsterio.pl/wykonczenie-wnetrz/remont-kuchni
 https://majsterio.pl/wykonczenie-wnetrz/wykonczenie-salonu
 https://majsterio.pl/wykonczenie-wnetrz/remont-pokoju
-https://majsterio.pl/cennik-uslug-budowlanych
-https://majsterio.pl/kosztorys-i-wycena-remontu
-https://majsterio.pl/maz-na-godziny
-https://majsterio.pl/blog
+https://majsterio.pl/cennik-uslug-budowlanych/
+https://majsterio.pl/kosztorys-i-wycena-remontu/
 '''.strip().split('\n')
-	if False:
+	to_delete = ['''<li id="menu-item-657" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-657">
+                                                    <a href="https://majsterio.pl/maz-na-godziny/">Mąż na godziny</a>
+                                                </li>''',
+'''<li id="menu-item-1415" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1415">
+                                                    <a href="https://majsterio.pl/./blog/">Blog</a>
+                                                </li>''','<li id="menu-item-1415" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1415"><a href="https://majsterio.pl/./blog/">Blog</a></li>', '<li id="menu-item-657" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-657"><a href="https://majsterio.pl/maz-na-godziny/">Mąż na godziny</a></li>','<li id="menu-item-657" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-657"><a href="https://majsterio.pl/maz-na-godziny/">Mąż na godziny</a></li>','<li id="menu-item-1415" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1415"><a href="https://majsterio.pl/./blog/">Blog</a></li>',
+	['href="https://majsterio.pl/" class="custom-logo-link"', 'href="/" class="custom-logo-link"']]
+	if True:
 		for url in urls:
 			if not url: continue
 			parsed_url = urlparse(url)
@@ -153,12 +162,14 @@ https://majsterio.pl/blog
 			content = str(download_page(url, filename, path_html, redownload = False))
 			if not content: continue
 			content = '\n'.join(get_content(content))
-			main(path_html	, content)
+			main(path_html, content)
+
 
 	directory_to_search = "pages"
 	html_files = find_html_files(directory_to_search)
+
 	for file in html_files:
-		replace_urls(file, urls)
+		replace_urls(file, urls, to_delete)
 	#main(filename, input_text)
 '''
 
