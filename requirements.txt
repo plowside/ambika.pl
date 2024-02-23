@@ -1,6 +1,4 @@
 fastapi
-pydantic
+fastapi-socketio
 uvicorn
-uuid
-starlette
-requests
+python-dotenv
